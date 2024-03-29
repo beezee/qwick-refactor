@@ -7,3 +7,6 @@ src/**.js
 coverage
 *.log
 yarn.lock
+*.swo
+*.swn
+*.swp
