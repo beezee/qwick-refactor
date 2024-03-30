@@ -73,7 +73,7 @@ I hit a few cycles where tuning my test inputs surfaced gaps in my
 understanding and I iterated on my simplification process.
 
 Eventually I got to the point where I had millions of verifications
-piled up that my simplification was behavior perserving, and
+piled up that my simplification was behavior preserving, and
 the quirky algorithm underneath this Jackson Pollock of a function was pretty
 clear to me. When I could explain it in simple words,
 I translated it to `cleanedUp` and locked
