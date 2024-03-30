@@ -13,7 +13,7 @@ See specifically:
 ##### [simplified](https://github.com/beezee/qwick-refactor/blob/main/src/index.ts#L86)
 
 A simplification of the original code resulting from repeated application
-behavior-preserving transformations.
+of behavior-preserving transformations.
 
 ##### [cleanedUp](https://github.com/beezee/qwick-refactor/blob/main/src/index.ts#L124)
 
