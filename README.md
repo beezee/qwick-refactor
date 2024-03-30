@@ -8,6 +8,18 @@ Just a qwick exercise
 
 Original code and all refactorings
 
+See specifically:
+
+##### [simplified](https://github.com/beezee/qwick-refactor/blob/main/src/index.ts#L86)
+
+A simplification of the original code resulting from repeated application
+behavior-preserving transformations.
+
+##### [cleanedUp](https://github.com/beezee/qwick-refactor/blob/main/src/index.ts#L124)
+
+A full rewrite in compositional, pure functional style, based on the
+algorithm rendered clear by `simplified`.
+
 #### [index.spec.ts](https://github.com/beezee/qwick-refactor/blob/main/src/index.spec.ts)
 
 Property test verifying that all refactorings are behavior-preserving.
