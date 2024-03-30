@@ -88,18 +88,17 @@ export const simplified = (args: (string | undefined)[]) => {
   var acc: [string, number][] = [];
   var accIx: number;
   x.forEach(([current, curIx]) => {
-    var start = curIx;
     for (accIx = 0; accIx < acc.length; accIx++) {
       const [prev, prevIx] = acc[accIx]
       if (eqOrPrefix(current.slice(curIx), prev.slice(prevIx)))
         continue;
       if (strLt(current.slice(curIx), prev.slice(prevIx))) {
-        acc.splice(Math.max(0, accIx - 1), 0, fn.tuple(current, start));
+        acc.splice(Math.max(0, accIx - 1), 0, fn.tuple(current, curIx));
       }
       break;
     }
     if (!acc.map(([h, _]) => h).includes(current)) {
-      acc.push(fn.tuple(current, start));
+      acc.push(fn.tuple(current, curIx));
     }
   });
   return acc.reverse().map(([h, _]) => h)
