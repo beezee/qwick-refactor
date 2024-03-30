@@ -2,6 +2,16 @@
 
 Just a qwick exercise
 
+## Repository Contents
+
+#### [index.ts](https://github.com/beezee/qwick-refactor/blob/main/src/index.ts)
+
+Original code and all refactorings
+
+#### [index.spec.ts](https://github.com/beezee/qwick-refactor/blob/main/src/index.spec.ts)
+
+Property test verifying that all refactorings are behavior-preserving.
+
 ## Notes
 
 Remember [these](https://www.magiceye.com/)? When I was a kid, magic eye books would
