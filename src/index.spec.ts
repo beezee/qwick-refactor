@@ -15,7 +15,7 @@ const wPrefixes = wSpaces.map(x => fn.pipe(x, str.split(''), ROA.scanLeft('', (a
 
 const strs = fc.oneof(wSpaces, wSpaces, fc.string({maxLength: 5}))
 
-testProp.serial('preserve original behavior', [
+testProp('preserve original behavior', [
   fc.array(orUndef(strs).noShrink(), { minLength: 3, maxLength: 10 }).noShrink(),
   wPrefixes,
   fc.array(orUndef(strs).noShrink(), { minLength: 3, maxLength: 10 }).noShrink()
