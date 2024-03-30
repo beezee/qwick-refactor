@@ -45,7 +45,7 @@ and different ways than I expected.
 
 I set out initially to identify and remove any
 algebraic redundancies. If I could find and apply small behavior-preserving
-transformations by substition like the ones I learned in
+transformations by substitution like the ones I learned in
 [The Little Prover](https://mitpress.mit.edu/9780262527958/the-little-prover/)
 until I was as close to evaluated normal form as possible, it might make
 my task of reading much easier.
