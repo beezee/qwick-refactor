@@ -74,6 +74,10 @@ const strLt = (l: string, r: string): boolean =>
       ? strLt(l.slice(1), r.slice(1))
       : false
 
+const eqOrPrefix = (l: string, r: string): boolean =>
+  l.startsWith(r) && (l.length >= r.length)
+  
+
 const strWithIxAfterSpace = (x: string): [string, number] => fn.tuple(x, x.indexOf(' ') + 1)
 
 const formatInput = (args: (string | undefined)[]): [string, number][] =>
@@ -85,10 +89,11 @@ export const simplified = (args: (string | undefined)[]) => {
   var accIx: number;
   x.forEach(([current, curIx]) => {
     var start = curIx;
-    for (accIx = 0; accIx < Math.min(acc.length, acc.length); accIx++) {
-      if (current.slice(curIx).startsWith(acc[accIx][0].slice(acc[accIx][1])) && (current.slice(curIx).length >= acc[accIx][0].slice(acc[accIx][1]).length))
+    for (accIx = 0; accIx < acc.length; accIx++) {
+      const [prev, prevIx] = acc[accIx]
+      if (eqOrPrefix(current.slice(curIx), prev.slice(prevIx)))
         continue;
-      if (strLt(current.slice(curIx), acc[accIx][0].slice(acc[accIx][1]))) {
+      if (strLt(current.slice(curIx), prev.slice(prevIx))) {
         acc.splice(Math.max(0, accIx - 1), 0, fn.tuple(current, start));
       }
       break;
@@ -99,3 +104,26 @@ export const simplified = (args: (string | undefined)[]) => {
   });
   return acc.reverse().map(([h, _]) => h)
 };
+
+const rewindSpan = <A>(spanned: A.Spanned<A, A>): [A, A.Spanned<A, A>] =>
+  fn.tuple(spanned.rest[0], ({ init: spanned.init.slice(0, -1), rest: [...spanned.init.slice(-1), ...spanned.rest] }))
+
+const putInPlace = (xs: [string, number][], [x, ix]: [string, number]) => 
+  fn.pipe(
+    xs,
+    A.spanLeft(([y, iy]) => eqOrPrefix(x.slice(ix), y.slice(iy))),
+    rewindSpan,
+    ([y, spanned]) =>
+      y && strLt(x.slice(ix), y[0].slice(y[1]))
+        ? [...spanned.init, fn.tuple(x, ix), ...spanned.rest]
+        : [
+            ...spanned.init,
+            ...spanned.rest,
+            ...(xs.map(([h, _]) => h).includes(x) ? [] : [fn.tuple(x, ix)])
+          ])
+
+export const cleanedUp = (args: (string | undefined)[]) => fn.pipe(
+  formatInput(args),
+  A.reduce([], putInPlace),
+  A.reverse,
+  A.map(([h, _]) => h))
