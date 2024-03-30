@@ -1,4 +1,8 @@
-export const doThingsAndStuff = (x: string[]) => {
+import * as A from 'fp-ts/Array';
+import * as fn from 'fp-ts/function';
+import * as O from 'fp-ts/Option';
+
+export const doThingsAndStuff = (x: (string | undefined)[]) => {
   var temp: string[] = [];
   var temp2: string | undefined;
   var tmep3: number;
@@ -61,4 +65,37 @@ export const doThingsAndStuff = (x: string[]) => {
     var newThing = temp.pop();
     x.push(newThing);
   };
-}
+};
+
+const strLt = (l: string, r: string): boolean =>
+  l === '' || l.charCodeAt(0) < r.charCodeAt(0)
+    ? true
+    : l.charCodeAt(0) === r.charCodeAt(0)
+      ? strLt(l.slice(1), r.slice(1))
+      : false
+
+const strWithIxAfterSpace = (x: string): [string, number] => fn.tuple(x, x.indexOf(' ') + 1)
+
+const formatInput = (args: (string | undefined)[]): [string, number][] =>
+  fn.pipe(args.slice(0), A.reverse, A.filterMap(O.fromNullable), A.filter(s => s.includes(' ')), A.map(strWithIxAfterSpace))
+
+export const simplified = (args: (string | undefined)[]) => {
+  const x = formatInput(args)
+  var acc: [string, number][] = [];
+  var accIx: number;
+  x.forEach(([current, curIx]) => {
+    var start = curIx;
+    for (accIx = 0; accIx < Math.min(acc.length, acc.length); accIx++) {
+      if (current.slice(curIx).startsWith(acc[accIx][0].slice(acc[accIx][1])) && (current.slice(curIx).length >= acc[accIx][0].slice(acc[accIx][1]).length))
+        continue;
+      if (strLt(current.slice(curIx), acc[accIx][0].slice(acc[accIx][1]))) {
+        acc.splice(Math.max(0, accIx - 1), 0, fn.tuple(current, start));
+      }
+      break;
+    }
+    if (!acc.map(([h, _]) => h).includes(current)) {
+      acc.push(fn.tuple(current, start));
+    }
+  });
+  return acc.reverse().map(([h, _]) => h)
+};
